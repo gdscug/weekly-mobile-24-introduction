@@ -8,6 +8,8 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -68,14 +71,43 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeHelloWorldTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                ComposeApp()
             }
+        }
+    }
+}
+
+@Composable
+fun OnboardingScreen(onButtonClicked: () -> Unit) {
+    Box(contentAlignment = Alignment.Center){
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Welcome To Compose Hello World!")
+            Button(onClick = onButtonClicked) {
+                Text(text = "Continue")
+            }
+        }
+    }
+}
+
+@Composable
+fun ComposeApp(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        var showOnBoardingScreen by rememberSaveable {
+            mutableStateOf(true)
+        }
+
+        if (showOnBoardingScreen) {
+            OnboardingScreen(
+                onButtonClicked = { showOnBoardingScreen = !showOnBoardingScreen }
+            )
+        } else {
+            GreetingList()
         }
     }
 }
@@ -154,5 +186,13 @@ fun GreetingPreview() {
 private fun GreetingListPreview() {
     ComposeHelloWorldTheme {
         GreetingList()
+    }
+}
+
+@Preview
+@Composable
+private fun ComposeAppPreview() {
+    ComposeHelloWorldTheme {
+        ComposeApp()
     }
 }
