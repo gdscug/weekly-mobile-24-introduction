@@ -1,5 +1,6 @@
 package com.compose.helloworld
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
@@ -36,6 +39,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.compose.helloworld.ui.theme.ComposeHelloWorldTheme
 
+private val sampleName = listOf(
+    "Affa",
+    "Abdur",
+    "Adam",
+    "Wulan",
+    "Nabila",
+    "Vino",
+    "Hilmi",
+    "Raqwan",
+    "Faishal",
+    "Nurhuda",
+    "Aisyah",
+    "Ariel",
+    "Raihan",
+    "Ira",
+    "Zahra",
+    "Ghina",
+    "Lilis",
+    "Sabrina",
+    "Abisola",
+    "Sasya",
+    "Lelyta"
+)
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +76,19 @@ class MainActivity : ComponentActivity() {
                     Greeting("Android")
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+fun GreetingList(
+    names: List<String> = sampleName,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn {
+        items(names) { name ->
+            Greeting(name = name)
         }
     }
 }
@@ -105,5 +145,14 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     ComposeHelloWorldTheme {
         Greeting("Android")
+    }
+}
+
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun GreetingListPreview() {
+    ComposeHelloWorldTheme {
+        GreetingList()
     }
 }
